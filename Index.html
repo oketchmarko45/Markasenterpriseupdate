@@ -28,14 +28,27 @@
     }
 
     .container {
-      max-width: 350px;
-      height: 600px;
+      max-width: 90%; /* Responsive width */
+      height: auto; /* Adjust height based on content */
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.12);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 800px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1200px;
+      }
     }
 
     /* HEADER */
@@ -45,7 +58,7 @@
       color: white;
       text-align: center;
       user-select: none;
-      box-shadow: 0 5px 12px rgb(0 0 0 /0.15);
+      box-shadow: 0 5px 12px rgb(0 0 0 / 0.15);
     }
     header h1 {
       font-weight: 700;
@@ -65,11 +78,10 @@
     nav {
       background: #e6f0fe;
       display: flex;
-      /* Change from space-around to stretch buttons */
-      /*justify-content: space-around;*/
+      justify-content: space-around;
       padding: 0.5rem 0;
       box-shadow: inset 0 -1px 0 #bdd0f2;
-      user-select: none;
+      flex-wrap: wrap;
     }
     nav button {
       background: none;
@@ -77,12 +89,14 @@
       color: #4a90e2;
       font-weight: 600;
       font-size: 0.85rem;
-      padding: 0.6rem 0;
+      padding: 0.6rem 0.8rem;
       cursor: pointer;
       border-radius: 12px;
       transition: background-color 0.3s ease;
-      flex: 1 1 0; /* added to fill evenly */
+      min-width: 80px;
       text-align: center;
+      flex: 1 1 auto;
+      margin: 0 4px 4px 4px;
       user-select: none;
     }
     nav button:focus,
@@ -103,6 +117,7 @@
       overflow-y: auto;
       padding: 1.2rem 1.5rem 2rem;
       scroll-behavior: smooth;
+      position: relative;
     }
 
     section {
@@ -180,6 +195,7 @@
       margin-top: 0.5rem;
       border: none;
     }
+
     .btn-buy:hover, .btn-donate:hover, .btn-pay:hover, .btn-contact:hover,
     .btn-buy:focus, .btn-donate:focus, .btn-pay:focus, .btn-contact:focus {
       background: #346bbf;
@@ -317,8 +333,52 @@
       outline-offset: 2px;
     }
   </style>
-  <!-- Load PayPal SDK, replace "test" client-id with actual for production -->
-  <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD" defer></script>
+  <script>
+    // Tab navigation logic with keyboard support
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('nav button[role="tab"]');
+      const panels = document.querySelectorAll('main section[role="tabpanel"]');
+
+      function activateTab(index) {
+        tabs.forEach((tab, i) => {
+          const selected = i === index;
+          tab.setAttribute('aria-selected', selected);
+          tab.tabIndex = selected ? 0 : -1;
+          panels[i].hidden = !selected;
+        });
+      }
+
+      tabs.forEach((tab, idx) => {
+        tab.addEventListener('click', () => activateTab(idx));
+        tab.addEventListener('keydown', (e) => {
+          let newIndex = null;
+          if(e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            newIndex = (idx + 1) % tabs.length;
+            e.preventDefault();
+          } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            newIndex = (idx - 1 + tabs.length) % tabs.length;
+            e.preventDefault();
+          }
+          if(newIndex !== null){
+            tabs[newIndex].focus();
+            activateTab(newIndex);
+          }
+        });
+      });
+
+      activateTab(0);
+
+      // Simple form submission handler (prevent real submission for demo)
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          alert('Thank you for your message! We will get back to you soon.');
+          e.target.reset();
+        });
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="container" role="main" aria-label="Markas Enterprise MKE Website">
@@ -392,19 +452,12 @@
         <div class="donation-section" aria-label="Donation form">
           <label for="donation-amount" style="font-weight: 600; font-size: 0.9rem;">Donation Amount (USD):</label>
           <input type="text" id="donation-amount" placeholder="e.g. 20" aria-describedby="donation-desc" inputmode="numeric" />
-          <button class="btn-donate" aria-label="Donate via PayPal" id="paypal-donate-btn">Donate with PayPal</button>
+          <button class="btn-donate" aria-label="Donate via PayPal">Donate with PayPal</button>
         </div>
-        <div id="paypal-button-container" style="margin-top: 12px;"></div>
-
         <hr style="margin:1.5rem 0;">
         <h3>Payments</h3>
         <p>We accept payments for kennel bookings, pet store items, and more.</p>
-        
-        <button class="btn-pay" aria-label="Make a PayPal Payment" id="paypal-pay-btn">Pay with PayPal</button>
-        
-        <button class="btn-pay" aria-label="Make a Mpesa Payment" id="mpesa-pay-btn" style="margin-top: 0.8rem; background:#009966;">
-          Pay with Mpesa
-        </button>
+        <button class="btn-pay" aria-label="Make a Payment">Make a Payment</button>
       </section>
 
       <!-- KENNEL SERVICES -->
@@ -468,114 +521,6 @@
       &copy; 2024 Markas Enterprise MKE. All rights reserved.
     </footer>
   </div>
-
-  <script>
-    // Tab navigation logic with keyboard support
-    const tabs = document.querySelectorAll('nav button[role="tab"]');
-    const panels = document.querySelectorAll('main section[role="tabpanel"]');
-
-    tabs.forEach((tab, idx) => {
-      tab.addEventListener('click', () => activateTab(idx));
-      tab.addEventListener('keydown', (e) => {
-        let newIndex = null;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          newIndex = (idx + 1) % tabs.length;
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          newIndex = (idx - 1 + tabs.length) % tabs.length;
-          e.preventDefault();
-        }
-        if(newIndex !== null) {
-          tabs[newIndex].focus();
-          activateTab(newIndex);
-        }
-      });
-    });
-
-    function activateTab(index) {
-      tabs.forEach((tab, i) => {
-        const selected = i === index;
-        tab.setAttribute('aria-selected', selected);
-        tab.tabIndex = selected ? 0 : -1;
-        panels[i].hidden = !selected;
-      });
-    }
-
-    activateTab(0);
-
-    // Simple form submission handler (prevent real submission for demo)
-    document.querySelector('form').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Thank you for your message! We will get back to you soon.');
-      e.target.reset();
-    });
-
-    // PayPal Buttons for donation and payment
-    let donateAmountInput = document.getElementById('donation-amount');
-    let paypalDonateBtn = document.getElementById('paypal-donate-btn');
-    let paypalPayBtn = document.getElementById('paypal-pay-btn');
-    let paypalButtonContainer = document.getElementById('paypal-button-container');
-
-    // Hide PayPal Buttons container initially
-    paypalButtonContainer.style.display = 'none';
-
-    // Utility to render PayPal Buttons with given amount and purpose
-    function renderPayPalButtons(amount, purpose) {
-      paypalButtonContainer.innerHTML = ''; // Clear existing buttons
-      paypalButtonContainer.style.display = 'block';
-
-      paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'blue',
-          shape: 'rect',
-          label: 'paypal'
-        },
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: { value: amount },
-              description: purpose
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert('Transaction completed by ' + details.payer.name.given_name + ' for $' + amount + '. Thank you!');
-            paypalButtonContainer.style.display = 'none';
-          });
-        },
-        onCancel: function() {
-          alert('Payment cancelled.');
-          paypalButtonContainer.style.display = 'none';
-        },
-        onError: function(err) {
-          alert('An error occurred during payment: ' + err);
-          paypalButtonContainer.style.display = 'none';
-        }
-      }).render('#paypal-button-container');
-    }
-
-    paypalDonateBtn.addEventListener('click', () => {
-      const amount = donateAmountInput.value.trim();
-      if (!amount || isNaN(amount) || Number(amount) <= 0) {
-        alert('Please enter a valid donation amount.');
-        donateAmountInput.focus();
-        return;
-      }
-      renderPayPalButtons(amount, 'Donation to Markas Enterprise MKE');
-    });
-
-    paypalPayBtn.addEventListener('click', () => {
-      const defaultAmount = '50'; // Example fixed payment amount
-      renderPayPalButtons(defaultAmount, 'Payment to Markas Enterprise MKE');
-    });
-
-    // Mpesa payment button demo: show instructions popup
-    document.getElementById('mpesa-pay-btn').addEventListener('click', () => {
-      alert('To pay via Mpesa:\n\n1. Open your Mpesa app or dial *123#.\n2. Choose "Buy Goods and Services".\n3. Enter Till Number: 123456.\n4. Enter your payment amount and confirm.\n\nThank you for your support!');
-    });
-  </script>
 </body>
 </html>
 </content>
