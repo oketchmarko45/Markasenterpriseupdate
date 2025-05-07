@@ -431,7 +431,129 @@
 
     <main>
       <!-- Sections omitted for brevity, same as prior code until footer -->
-      <!-- ... -->
+      <section role="tabpanel" aria-labelledby="tab-home" id="home">
+        <h2>Welcome to Markas Enterprise MKE</h2>
+        <p>We pride ourselves in exceptional dog care, quality book publishing by our CEO Mark Oketch (the "dogtrovert"), and providing a full range of pet services to enrich your pets’ lives.</p>
+        <p>Mark Oketch is also a skilled Front End Developer with a passion for writing and dog advocacy.</p>
+      </section>
+
+      <!-- BOOKS -->
+      <section role="tabpanel" aria-labelledby="tab-books" id="books" hidden>
+        <h2>Books by CEO Mark Oketch</h2>
+        <ul class="books-list" aria-label="List of books by CEO">
+          <li>
+            <span class="book-title">The Dogtrovert Diaries</span>
+            <p class="book-desc">An engaging memoir on life, dogs, and self-discovery through the eyes of the dogtrovert.</p>
+            <a href="#" class="btn-buy" tabindex="0" aria-label="Buy The Dogtrovert Diaries book">Buy Now</a>
+          </li>
+          <li>
+            <span class="book-title">Code & Canines</span>
+            <p class="book-desc">A unique blend of front end development tutorials and heartwarming stories about dogs.</p>
+            <a href="#" class="btn-buy" tabindex="0" aria-label="Buy Code & Canines book">Buy Now</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- BLOG -->
+      <section role="tabpanel" aria-labelledby="tab-blog" id="blog" hidden>
+        <h2>Company Blog</h2>
+        <ul class="blog-list" aria-label="List of recent blog posts">
+          <li>
+            <span class="blog-title">How to Choose the Perfect Kennel for Your Dog</span>
+            <p class="blog-snippet">Selecting the right kennel can make all the difference for your furry friend...</p>
+          </li>
+          <li>
+            <span class="blog-title">The Benefits of Regular Dog Grooming</span>
+            <p class="blog-snippet">Grooming doesn't just keep your dog looking good, it also promotes health and happiness...</p>
+          </li>
+          <li>
+            <span class="blog-title">5 Front End Development Tips from a Dogtrovert</span>
+            <p class="blog-snippet">Discover my favorite coding approaches that keep projects engaging and efficient...</p>
+          </li>
+        </ul>
+        <p style="text-align:center; margin-top: 0.8rem;">
+          <a href="https://markasenterprisemke.netlify.app/blog" target="_blank" rel="noopener" class="link" tabindex="0">Visit Full Blog</a>
+        </p>
+      </section>
+
+      <!-- DONATION & PAYMENT -->
+      <section role="tabpanel" aria-labelledby="tab-donate" id="donate" hidden>
+        <h2>Donations & Payments</h2>
+        <p>Your support helps us provide better care for dogs and expand our services. Every donation counts!</p>
+        <div class="donation-section" aria-label="Donation form">
+          <label for="donation-amount" style="font-weight: 600; font-size: 0.9rem;">Donation Amount (USD):</label>
+          <input type="text" id="donation-amount" placeholder="e.g. 20" aria-describedby="donation-desc" inputmode="numeric" />
+          <button class="btn-donate" aria-label="Donate via PayPal" id="paypal-donate-btn">Donate with PayPal</button>
+        </div>
+        <div id="paypal-button-container" style="margin-top: 12px;"></div>
+
+        <hr style="margin:1.5rem 0;">
+        <h3>Payments</h3>
+        <p>We accept payments for kennel bookings, pet store items, and more.</p>
+        
+        <button class="btn-pay" aria-label="Make a PayPal Payment" id="paypal-pay-btn">Pay with PayPal</button>
+        
+        <button class="btn-pay" aria-label="Make a Mpesa Payment" id="mpesa-pay-btn" style="margin-top: 0.8rem; background:#009966;">
+          Pay with Mpesa
+        </button>
+      </section>
+
+      <!-- KENNEL SERVICES -->
+      <section role="tabpanel" aria-labelledby="tab-kennel" id="kennel" hidden>
+        <h2>Kennel Services</h2>
+        <ul class="services-list" aria-label="Kennel services list">
+          <li>Kenneling & Boarding with loving care</li>
+          <li>Dog Daycare & Play Sessions</li>
+          <li>Daily Dog Walking</li>
+          <li>Basic Training & Behavior Support</li>
+          <li>Grooming & Bath Services</li>
+        </ul>
+        <p>Our kennel ensures a comfortable and safe environment for your dogs while you're away. Book your spot today!</p>
+      </section>
+
+      <!-- PET STORE -->
+      <section role="tabpanel" aria-labelledby="tab-petstore" id="petstore" hidden>
+        <h2>Pet Store Services</h2>
+        <ul class="services-list" aria-label="Pet store product categories">
+          <li>High Quality Dog Food & Treats</li>
+          <li>Pet Toys & Accessories</li>
+          <li>Grooming Supplies</li>
+          <li>Training Equipment</li>
+          <li>Health & Wellness Products</li>
+        </ul>
+        <p>We aim to be your trusted one-stop pet store to support your dog’s lifestyle and health.</p>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section role="tabpanel" aria-labelledby="tab-testimonials" id="testimonials" hidden>
+        <h2>Testimonials</h2>
+        <div class="testimonial">
+          <p>"Markas Enterprise MKE has been amazing with my dog! The staff is caring and professional."</p>
+          <div class="testimonial-footer">– Sarah L.</div>
+        </div>
+        <div class="testimonial">
+          <p>"I love the books by Mark Oketch. They are inspiring and a perfect blend of coding and dogs!"</p>
+          <div class="testimonial-footer">– John M.</div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section role="tabpanel" aria-labelledby="tab-contact" id="contact" hidden>
+        <h2>Contact Us</h2>
+        <form aria-label="Contact form">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name" />
+
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+
+          <button type="submit" aria-label="Send Contact Message">Send Message</button>
+        </form>
+      </section>
+  
       <!-- You may add the previous content sections here -->
     </main>
 
